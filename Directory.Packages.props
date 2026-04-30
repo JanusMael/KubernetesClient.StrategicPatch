@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup Label="Test">
     <PackageVersion Include="MSTest" Version="4.0.2" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.0" />
     <!--
       The generator project (Stage 13) compiles against Roslyn 4.x; IIncrementalGenerator was
       introduced in 4.0. Pinned here so a future SDK bump doesn't silently bring in a different
