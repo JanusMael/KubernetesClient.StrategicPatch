@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>KubernetesClient.StrategicPatch.Samples.EksAutoscaler</RootNamespace>
+    <AssemblyName>KubernetesClient.StrategicPatch.Samples.EksAutoscaler</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KubernetesClient.StrategicPatch\KubernetesClient.StrategicPatch.csproj" />
+    <ProjectReference Include="..\Common\KubernetesClient.StrategicPatch.Samples.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fixtures\deployment.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

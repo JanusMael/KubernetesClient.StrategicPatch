@@ -1,0 +1,40 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "api",
+    "namespace": "default",
+    "uid": "8a92c0a4-3f50-4d7a-b9ea-1a7d8c2f9c11",
+    "resourceVersion": "12345",
+    "annotations": {
+      "fargate-profile/owned-by": "platform-team",
+      "fargate-profile/injected-by": "admission-controller"
+    },
+    "labels": {
+      "app": "api",
+      "tier": "web"
+    }
+  },
+  "spec": {
+    "replicas": 3,
+    "selector": {
+      "matchLabels": { "app": "api" }
+    },
+    "template": {
+      "metadata": {
+        "labels": { "app": "api" }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "web",
+            "image": "ghcr.io/example/api:1.2.3",
+            "ports": [
+              { "containerPort": 8080, "protocol": "TCP", "name": "http" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

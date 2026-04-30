@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'NuGet version (e.g. 2026.2.429)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed for EmbedUntrackedSources
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Resolve version and tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+            echo "TAG=v${{ inputs.version }}" >> $GITHUB_ENV
+          else
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+            echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          fi
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore --nologo /p:Version=${{ env.VERSION }}
+
+      - name: Test
+        run: >
+          dotnet test --configuration Release --no-build
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+          --logger "trx;LogFileName=test-results.trx"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Pack
+        run: >
+          dotnet pack src/KubernetesClient.StrategicPatch/KubernetesClient.StrategicPatch.csproj
+          --configuration Release --no-build --nologo
+          /p:Version=${{ env.VERSION }}
+          --output ./artifacts
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nupkg-${{ env.VERSION }}
+          path: ./artifacts/*.nupkg
+
+      - name: Push to NuGet.org
+        run: >
+          dotnet nuget push ./artifacts/*.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ env.TAG }}" \
+            --title "${{ env.TAG }}" \
+            --generate-notes \
+            ./artifacts/*.nupkg

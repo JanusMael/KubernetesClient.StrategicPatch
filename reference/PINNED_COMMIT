@@ -1,0 +1,5 @@
+repo: github.com/kubernetes/apimachinery
+tag: v0.36.0
+commit: debe1eba03a0c4134fd07a8f7586c44bb94ec7b0
+package: pkg/util/strategicpatch
+fetched: 2026-04-29

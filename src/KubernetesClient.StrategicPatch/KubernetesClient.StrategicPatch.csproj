@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>KubernetesClient.StrategicPatch</RootNamespace>
+    <AssemblyName>KubernetesClient.StrategicPatch</AssemblyName>
+    <IsPackable>true</IsPackable>
+    <PackageId>KubernetesClient.StrategicPatch</PackageId>
+    <Description>Kubernetes Strategic Merge Patch for .NET — generates and applies SMP / three-way merge patches against KubernetesClient model types, with full parity with the Go reference (k8s.io/apimachinery/pkg/util/strategicpatch).</Description>
+    <PackageTags>kubernetes;k8s;strategic-merge-patch;smp;json-merge-patch</PackageTags>
+    <Authors>Brian Bennewitz</Authors>
+    <Copyright>Copyright © 2026 Brian Bennewitz</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/JanusMael/KubernetesClient.StrategicPatch</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Sentinel used for local builds; release CI always overrides with /p:Version=<calver>. -->
+    <Version Condition="'$(Version)' == ''">0.0.0-local</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KubernetesClient" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Schema snapshot produced by the SchemaTool. Conditional so the lib still builds in a clean
+      checkout before the snapshot has been generated. To (re)generate, run:
+        scripts/regen-schemas.sh   (Linux/macOS)
+        scripts/regen-schemas.ps1  (Windows)
+    -->
+    <EmbeddedResource Include="EmbeddedResources\schemas.json"
+                      Condition="Exists('EmbeddedResources\schemas.json')"
+                      LogicalName="KubernetesClient.StrategicPatch.schemas.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Build-order dependency only — ensures the generator is compiled before we pack.
+      ReferenceOutputAssembly=false so it is not a runtime or compile-time reference
+      of this library; consumers activate it through the analyzer path in the package.
+    -->
+    <ProjectReference Include="..\KubernetesClient.StrategicPatch.SourceGenerators\KubernetesClient.StrategicPatch.SourceGenerators.csproj"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Bundle the generator DLL into the NuGet package at the Roslyn analyzer path.
+      NuGet consumers get both the library and compile-time schema baking in a single
+      package reference. The Condition keeps pack working in a clean checkout before
+      the generator has been built (e.g. dotnet pack without a prior dotnet build).
+    -->
+    <None Include="..\KubernetesClient.StrategicPatch.SourceGenerators\bin\$(Configuration)\netstandard2.0\KubernetesClient.StrategicPatch.SourceGenerators.dll"
+          Condition="Exists('..\KubernetesClient.StrategicPatch.SourceGenerators\bin\$(Configuration)\netstandard2.0\KubernetesClient.StrategicPatch.SourceGenerators.dll')"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
+  </ItemGroup>
+
+</Project>

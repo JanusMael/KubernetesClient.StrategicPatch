@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Source generators must run on netstandard2.0 — the compiler host's runtime. -->
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>KubernetesClient.StrategicPatch.SourceGenerators</RootNamespace>
+    <AssemblyName>KubernetesClient.StrategicPatch.SourceGenerators</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <!-- Only compile-time analyzer assets are emitted; no runtime IL. -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <!-- TWAE in the runtime lib catches CRLF/etc. Keep here too. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- RS2008 wants AnalyzerReleases.Shipped.md tracking for diagnostic analyzers.
+         This project is a pure source generator — it emits no diagnostics — so the
+         release-tracking file is not applicable. -->
+    <NoWarn>$(NoWarn);RS2008</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="System.Text.Json" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The generator embeds the same schemas.json the runtime library does. The link keeps the
+      file source-of-truth in src/KubernetesClient.StrategicPatch/EmbeddedResources/ — the
+      generator picks it up at build time. Re-running scripts/regen-schemas.sh updates both
+      the runtime lib's resource AND the generator's input in one shot.
+    -->
+    <EmbeddedResource Include="..\KubernetesClient.StrategicPatch\EmbeddedResources\schemas.json"
+                      Condition="Exists('..\KubernetesClient.StrategicPatch\EmbeddedResources\schemas.json')"
+                      Link="schemas.json"
+                      LogicalName="KubernetesClient.StrategicPatch.SourceGenerators.schemas.json" />
+  </ItemGroup>
+
+</Project>

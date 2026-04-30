@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>KubernetesClient.StrategicPatch.SourceGenerators.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KubernetesClient.StrategicPatch\KubernetesClient.StrategicPatch.csproj" />
+    <ProjectReference Include="..\..\src\KubernetesClient.StrategicPatch.SourceGenerators\KubernetesClient.StrategicPatch.SourceGenerators.csproj"
+                      ReferenceOutputAssembly="true"
+                      OutputItemType="Analyzer" />
+  </ItemGroup>
+
+</Project>

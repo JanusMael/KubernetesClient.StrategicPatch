@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>KubernetesClient.StrategicPatch.SourceGenerators.Sandbox</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <!-- See docs/SOURCE_GEN_DEBUGGING.md. With this set, generator output lands under
+         obj/<config>/<tfm>/generated/ for inspection on every build. -->
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\generated</CompilerGeneratedFilesOutputPath>
+    <!-- Suppress analyzer noise unrelated to generator iteration. -->
+    <NoWarn>$(NoWarn);CA1812</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KubernetesClient.StrategicPatch\KubernetesClient.StrategicPatch.csproj" />
+    <ProjectReference Include="..\..\src\KubernetesClient.StrategicPatch.SourceGenerators\KubernetesClient.StrategicPatch.SourceGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+</Project>

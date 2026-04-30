@@ -1,0 +1,36 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- Portable PDBs embedded in the assembly — applies to both Debug and Release. -->
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Enable the generator -->
+    <GenerateAutoVersionedAssemblyInfo>true</GenerateAutoVersionedAssemblyInfo>
+
+    <!-- Required: prevents CS0579 duplicate attribute errors. The SDK emits AssemblyVersion,
+         AssemblyCompany, etc. by default; this generator emits them too, so one must be disabled. -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <AssemblyCompany>Bennewitz.Ninja</AssemblyCompany>
+    <AssemblyProduct>KubernetesClient.StrategicPatch</AssemblyProduct>
+
+    <CommitSha Condition="'$(CommitSha)' == ''">$(GITHUB_SHA)</CommitSha>
+    <IsContinuousIntegration>$(GITHUB_ACTIONS)</IsContinuousIntegration>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bennewitz.Ninja.AutoVersioning" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

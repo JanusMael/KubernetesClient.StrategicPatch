@@ -1,0 +1,34 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+nupkg/
+.nuget/
+
+# Test artifacts
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.trx
+*.lcov
+*.opencover.xml
+**/coverage.cobertura.xml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Per-developer Claude permissions
+.claude/settings.local.json

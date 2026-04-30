@@ -1,0 +1,54 @@
+<Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs/AI_AGENT_CONTEXT.md" />
+    <File Path="docs/ARCHITECTURE.md" />
+    <File Path="docs/SOURCE_GEN_DEBUGGING.md" />
+  </Folder>
+  <Folder Name="/reference/">
+    <File Path="reference/PINNED_COMMIT" />
+    <File Path="reference/README.md" />
+  </Folder>
+  <Folder Name="/samples/" />
+  <Folder Name="/samples/Common/">
+    <Project Path="samples/Common/KubernetesClient.StrategicPatch.Samples.Common.csproj" />
+  </Folder>
+  <Folder Name="/samples/EksAutoscaler/">
+    <Project Path="samples/EksAutoscaler/KubernetesClient.StrategicPatch.Samples.EksAutoscaler.csproj" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/refresh-k8s-openapi.sh" />
+    <File Path="scripts/regen-schemas.ps1" />
+    <File Path="scripts/regen-schemas.sh" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="CHANGELOG.md" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE" />
+    <File Path="Pack.ps1" />
+    <File Path="README.md" />
+    <File Path="KubernetesClient.StrategicPatch.slnx" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/KubernetesClient.StrategicPatch.SchemaTool/KubernetesClient.StrategicPatch.SchemaTool.csproj" />
+    <Project Path="src/KubernetesClient.StrategicPatch.SourceGenerators/KubernetesClient.StrategicPatch.SourceGenerators.csproj" />
+    <Project Path="src/KubernetesClient.StrategicPatch/KubernetesClient.StrategicPatch.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KubernetesClient.StrategicPatch.Tests/KubernetesClient.StrategicPatch.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/SourceGenerators.Sandbox/">
+    <Project Path="tests/SourceGenerators.Sandbox/KubernetesClient.StrategicPatch.SourceGenerators.Sandbox.csproj" />
+  </Folder>
+  <Folder Name="/tests/SourceGenerators.Tests/">
+    <Project Path="tests/SourceGenerators.Tests/KubernetesClient.StrategicPatch.SourceGenerators.Tests.csproj" />
+  </Folder>
+</Solution>

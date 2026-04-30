@@ -1,0 +1,16 @@
+repo:    github.com/kubernetes/kubernetes
+tag:     v1.36.0
+commit:  ecf6decece6a6de25a57aad9ba90b6ce580f6f78
+fetched: 2026-04-29
+license: Apache-2.0
+
+Vendored API groups (file names are the canonical OpenAPI v3 split):
+  api__v1_openapi.json                              core/v1
+  apis__apps__v1_openapi.json                       apps/v1
+  apis__batch__v1_openapi.json                      batch/v1
+  apis__networking.k8s.io__v1_openapi.json          networking.k8s.io/v1
+  apis__rbac.authorization.k8s.io__v1_openapi.json  rbac.authorization.k8s.io/v1
+  apis__policy__v1_openapi.json                     policy/v1
+  apis__autoscaling__v2_openapi.json                autoscaling/v2
+
+Refresh: scripts/refresh-k8s-openapi.sh   (re-fetch and update this file)

@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build-test:
+    name: build & test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test (with coverage)
+        run: >
+          dotnet test --configuration Release --no-build
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+          --logger "trx;LogFileName=test-results.trx"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Coverage gate (>=80%)
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          set -euo pipefail
+          report=$(find ./TestResults -name 'coverage.cobertura.xml' | head -n 1)
+          if [ -z "$report" ]; then
+            echo "::error::No coverage report produced."
+            exit 1
+          fi
+          echo "Found coverage report: $report"
+          # Cobertura: line-rate is on the root <coverage> element as a fraction (0..1).
+          rate=$(python3 -c "import xml.etree.ElementTree as ET; print(ET.parse('$report').getroot().attrib['line-rate'])")
+          pct=$(python3 -c "print(f'{float(\"$rate\")*100:.2f}')")
+          echo "Line coverage: ${pct}%"
+          gate=80.00
+          ok=$(python3 -c "print(1 if float('$pct') >= float('$gate') else 0)")
+          if [ "$ok" != "1" ]; then
+            echo "::error::Coverage ${pct}% is below the ${gate}% gate."
+            exit 1
+          fi
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: ./TestResults
