@@ -25,6 +25,7 @@
 
     <AssemblyCompany>Bennewitz.Ninja</AssemblyCompany>
     <AssemblyProduct>KubernetesClient.StrategicPatch</AssemblyProduct>
+    <CopyrightHolder>Brian Bennewitz</CopyrightHolder>
 
     <CommitSha Condition="'$(CommitSha)' == ''">$(GITHUB_SHA)</CommitSha>
     <IsContinuousIntegration>$(GITHUB_ACTIONS)</IsContinuousIntegration>

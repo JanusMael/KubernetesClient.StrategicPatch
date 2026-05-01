@@ -4,35 +4,36 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup Label="Build">
-    <PackageVersion Include="Bennewitz.Ninja.AutoVersioning" Version="2026.2.429" />
+    <PackageVersion Include="Bennewitz.Ninja.AutoVersioning" Version="2026.2.501" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="KubernetesClient" Version="19.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.203" />
-    <PackageVersion Include="YamlDotNet" Version="16.3.0" />
+    <PackageVersion Include="YamlDotNet" Version="17.1.0" />
   </ItemGroup>
   <ItemGroup Label="Samples">
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
     <PackageVersion Include="Polly" Version="8.6.6" />
   </ItemGroup>
   <ItemGroup Label="Test">
-    <PackageVersion Include="MSTest" Version="4.0.2" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="MSTest" Version="4.2.2" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.0" />
     <!--
-      The generator project (Stage 13) compiles against Roslyn 4.x; IIncrementalGenerator was
-      introduced in 4.0. Pinned here so a future SDK bump doesn't silently bring in a different
-      major and require a generator-side rewrite. The Microsoft.CodeAnalysis.Testing meta-package
-      is intentionally NOT pinned — its current stable (1.1.2) carries Roslyn 3.8 transitively
-      and conflicts with IIncrementalGenerator. The generator's snapshot tests will use
-      CSharpGeneratorDriver directly until the testing harness ships a 4.x variant.
+      The generator project compiles against Roslyn 5.x; IIncrementalGenerator was introduced in
+      4.0. Pinned here so a future SDK bump doesn't silently bring in a different major and require
+      a generator-side rewrite. The Microsoft.CodeAnalysis.Testing meta-package is intentionally
+      NOT pinned — its current stable (1.1.2) carries Roslyn 3.8 transitively and conflicts with
+      IIncrementalGenerator. The generator's snapshot tests will use CSharpGeneratorDriver directly
+      until the testing harness ships a compatible variant.
     -->
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
   </ItemGroup>
   <ItemGroup Label="SourceGenerator">
-    <!-- Generators must run on netstandard2.0 (the compiler host's runtime). System.Text.Json
-         8.x is the latest line that ships netstandard2.0 binaries; the wire-format reader
-         in the generator targets it. -->
-    <PackageVersion Include="System.Text.Json" Version="8.0.6" />
+    <!-- The generator project targets netstandard2.0 but runs inside the .NET compiler host
+         process, which provides System.Text.Json from the host runtime. PrivateAssets="all"
+         on the reference means the package is not shipped with the analyzer DLL — the host's
+         inbox System.Text.Json is used at runtime regardless of the version pinned here. -->
+    <PackageVersion Include="System.Text.Json" Version="10.0.7" />
   </ItemGroup>
 </Project>
