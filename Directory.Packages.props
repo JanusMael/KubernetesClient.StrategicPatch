@@ -17,7 +17,7 @@
     <PackageVersion Include="Polly" Version="8.6.6" />
   </ItemGroup>
   <ItemGroup Label="Test">
-    <PackageVersion Include="MSTest" Version="4.2.2" />
+    <PackageVersion Include="MSTest" Version="4.2.3" />
     <PackageVersion Include="coverlet.collector" Version="10.0.0" />
     <!--
       The generator project compiles against Roslyn 5.x; IIncrementalGenerator was introduced in
