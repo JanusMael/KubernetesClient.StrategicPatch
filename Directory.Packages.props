@@ -34,6 +34,6 @@
          process, which provides System.Text.Json from the host runtime. PrivateAssets="all"
          on the reference means the package is not shipped with the analyzer DLL — the host's
          inbox System.Text.Json is used at runtime regardless of the version pinned here. -->
-    <PackageVersion Include="System.Text.Json" Version="10.0.7" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.8" />
   </ItemGroup>
 </Project>
