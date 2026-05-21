@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup Label="Build">
-    <PackageVersion Include="Bennewitz.Ninja.AutoVersioning" Version="2026.2.501" />
+    <PackageVersion Include="Bennewitz.Ninja.AutoVersioning" Version="2026.2.522" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="KubernetesClient" Version="19.0.2" />
